@@ -5,6 +5,7 @@ APP_ID_SFX='.dear.google.please.dont.block'
 DIR="$(cd "$(dirname "$0")"; pwd -P)"
 DEST_DIR="$DIR/dist"
 mkdir -p "$DEST_DIR"
+export NO_GS=true
 
 bundletool_universal() {
     local AAB="$1"
@@ -30,7 +31,7 @@ build_apk() {
         abi='armeabi-v7a'
     fi
 
-    ./gradlew clean fermata:bundleRelease -PABI=$abi -PAPP_ID_SFX=$APP_ID_SFX
+    ./gradlew clean fermata:bundleAutoRelease -PABI=$abi -PAPP_ID_SFX=$APP_ID_SFX
     bundletool_universal ./fermata/build/outputs/bundle/autoRelease/fermata-*-release.aab -universal-$sfx -release
     mv ./fermata/build/outputs/bundle/autoRelease/fermata-*.apk "$DEST_DIR"
 }
